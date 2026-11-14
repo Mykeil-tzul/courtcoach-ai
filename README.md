@@ -1,193 +1,35 @@
-# NBA Player Fatigue + Availability Risk Engine
+# NBA Integrity Intelligence
 
-A production-style sports analytics and machine learning project that predicts short-term performance dips and fatigue-related risk in NBA players using workload, schedule density, and recent performance trends.
+[**Open the live review desk**](https://mykeil-tzul.github.io/nba-integrity-intelligence/)
 
-## Live Application
+I built this project to explore how an analyst might review unusual market activity without treating every unusual move as suspicious. The demo uses completed NBA game records for context and fictional quote feeds to test which alerts an analyst would see.
 
-👉 Interactive dashboard built with Streamlit - 
+## Try it
 
-- Select any player
-- View fatigue risk + dip probability
-- Explore workload trends over time
-- Identify high-risk games
+1. Pick **Isolation Forest** or **Threshold rules** and move the alert cutoff. Watch the queue, precision, recall, and false alert count change.
+2. Open an alert and inspect the primary and reference quotes one tick at a time. The review panel also shows how old each update is.
+3. Select **Find a routine alert**, reveal the simulation label, and decide whether to dismiss the case or mark it for follow-up. Review notes and decisions stay in memory for the current visit.
 
-## 🎥 App Demo
+## Data and evaluation
 
-![App Demo](reports/app_demo.gif)
+I took game dates, IDs, appearance counts, and combined box-score points from my [NBA Cloud Data Platform](https://github.com/Mykeil-tzul/nba-cloud-data-platform). The snapshot contains 5,100 games. Game data gives each case context. The model scores only three market features from the simulated feed.
 
-## Why I built this
+The generator assigns fictional price jumps, feed disagreements, and stale updates. It also includes routine volatility. A rule flags large values in any of three signals. Isolation Forest scores unusual combinations of the same signals. I fit it on 3,830 earlier games and fixed the cutoff using the training score distribution. The 1,270 later games include 98 injected events.
 
-As a former professional basketball player, I wanted to quantify something players feel in real life: fatigue is cumulative, travel matters, schedule density matters, and not all minutes cost the same.
+| Default method | Precision | Recall | False alerts |
+| --- | ---: | ---: | ---: |
+| Threshold rules | 100.0% | 71.4% | 0 |
+| Isolation Forest | 98.6% | 71.4% | 1 |
 
-This project turns that lived experience into a data product + predictive system:
-- a fatigue risk engine
-- a performance dip prediction model
-- a reusable player-level prediction pipeline
+Both caught 70 injected events at their default cutoffs. The rule caught the same number with one fewer false alarm. The threshold slider shows how changing the cutoff changes the review workload. These numbers describe this simulation and don’t establish accuracy on live markets. Individual alerts are fictional and make no allegation about the real games.
 
-The goal is to show how basketball knowledge, data science, and machine learning engineering can come together in one real-world project.
+## Reproduce and run locally
 
-## What This Project Does
+```bash
+python -m pip install -r requirements-training.txt
+python integrity.py
+python -m unittest discover -s tests -v
+python -m http.server 8000 --directory site
+```
 
-This system combines:
-
-1. **NBA Fatigue Risk Engine**  
-   Estimate player fatigue based on minutes load, rest days, back-to-backs and rolling workload.
-
-2. **Performance Dip Prediction Model**  
-   Predict whether a player will underperform next game.
-
-3. **End-to-End Data Pipeline**  
-   Fully reproducible workflow:
-   ingest → clean → feature engineer → train → predict → visualize
-
-## Key Insights
-
-- Scoring output (PTS) is the strongest predictor of dips
-- Workload score significantly impacts fatigue risk
-- Rolling performance trends are critical signals
-- Fatigue is multi-factor, not just minutes played
-
-## Model Insight
-
-Fatigue is driven by a combination of:
-
-- Short rest periods
-- Back-to-back games
-- Accumulated workload
-- Recent performance trends
-
-## Feature Importance
-
-![alt text](reports/feature_importance.png)
-
-## Modeling Objectives
-
-This project focuses on two modeling tasks:
-
-### 1) Classification
-Predict whether a player will experience a **next-game performance dip**.
-
-Example definitions may include:
-- points below rolling average
-- FG% / TS% below baseline
-- Game Score below expected level
-- meaningful drop in all-around production
-
-### 2) Risk Scoring
-Estimate a continuous **fatigue or availability risk score** (0-100) based on:
-- recent minutes
-- days of rest
-- back-to-back flags
-- 3 games in 4 nights / 4 games in 6 nights (workload)
-- travel burden
-- age and experience curves
-
-## Model Performance
-
-- Accuracy: 0.87
-- Balanced precision/recall
-- Strong early signal with limited dataset
-
-## Key Features Engineered 
-
-- days_rest
-- is_back_to_back
-- rolling_pts_3
-- rolling_min_3
-- rolling_ast_3
-- rolling_reb_3
-- workload_score
-
-## Tech stack
-
-- **Python**
-- **pandas**
-- **numpy**
-- **scikit-learn**
-- **SQL**
-- **Matplotlib**
-- **Streamlit**
-- **Git + GitHub**
-
-## Data sources
-
-Planned data sources include:
-- NBA game logs
-- Basketball-Reference game logs and player pages
-- Publicly available schedule data
-- Public injury / availability reports where appropriate
-
-## Pipeline Overview 
-
-Data Collection → Cleaning → Feature Engineering → Labeling
-→ Model Training → Evaluation → Predictions → Visualization
-
-## Streamlit Application
-This project includes a fully interactive dashboard:
-
-Features:
-Player selection dropdown
-Fatigue Risk Score (0–100)
-Dip Probability (%)
-Risk classification (Low / Medium / High)
-Fatigue trend visualization
-Recent game snapshot
-Top risky games detection
-
-## Planned workflow
-
-1. Collect player game log data
-2. Clean and standardize raw data
-3. Create workload and schedule-density features
-4. Define performance dip labels
-5. Train baseline classification models
-6. Improve with better feature engineering
-7. Evaluate model performance
-8. Visualize fatigue-risk patterns
-9. Build a small Streamlit app for interactive exploration
-
-## Business/Basketball Impact
-
-This type of system can be used by:
-
-NBA teams → player load management
-Sports betting platforms → performance forecasting
-Fantasy sports → player projections
-Media → storytelling + analytics
-
-## Repository structure
-
-```text
-nba-fatigue-availability-risk-engine/
-│
-├── README.md
-├── requirements.txt
-├── .gitignore
-├── LICENSE
-│
-├── data/
-│   ├── raw/
-│   ├── interim/
-│   └── processed/
-│
-├── notebooks/
-│   ├── 01_data_collection.ipynb
-│   ├── 02_eda.ipynb
-│   ├── 03_feature_engineering.ipynb
-│   ├── 04_modeling.ipynb
-│   └── 05_error_analysis.ipynb
-│
-├── src/
-│   ├── data_collection.py
-│   ├── preprocessing.py
-│   ├── feature_engineering.py
-│   ├── labeling.py
-│   ├── train.py
-│   ├── evaluate.py
-│   └── predict.py
-│
-├── sql/
-├── models/
-├── reports/
-├── app/
-└── tests/
+Open `http://localhost:8000`. Training writes the evaluated rows, market ticks, and metrics to `data/` and copies the browser-ready results to `site/`. The public review desk runs on GitHub Pages. It uses the prepared scores and updates the review queue in the browser.

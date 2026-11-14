@@ -1,0 +1,25 @@
+{
+  "training_rows": 3830,
+  "cutoff": "2025-11-09",
+  "test_rows": 1270,
+  "model_threshold": 0.5568816251532165,
+  "injected": 98,
+  "rules": {
+    "tp": 70,
+    "fp": 0,
+    "fn": 28,
+    "tn": 1172,
+    "precision": 1.0,
+    "recall": 0.7142857142857143,
+    "false_positive_rate": 0.0
+  },
+  "model": {
+    "tp": 70,
+    "fp": 1,
+    "fn": 28,
+    "tn": 1171,
+    "precision": 0.9859154929577465,
+    "recall": 0.7142857142857143,
+    "false_positive_rate": 0.0008532423208191126
+  }
+}

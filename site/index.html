@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="en">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>NBA Integrity Intelligence</title>
+<style>
+:root{color-scheme:dark;font:16px system-ui;background:#101523;color:#f4f4ff;--muted:#b7c2d9;--accent:#ffb27c;--panel:#1b2438}
+*{box-sizing:border-box}body{max-width:1180px;margin:auto;padding:1.5rem 1rem 4rem}header{padding:clamp(1.3rem,4vw,3rem);border-radius:24px;background:linear-gradient(120deg,#202b56,#352748 70%,#653a2d)}
+h1{font-size:clamp(2.15rem,6vw,4rem);line-height:1.05;margin:.5rem 0}h2,h3{margin-top:0}p{line-height:1.55}a{color:var(--accent)}.muted{color:var(--muted)}.badge{color:#ffca9f;font-weight:700}.cards,.layout{display:grid;gap:1rem;margin-top:1rem}.cards{grid-template-columns:repeat(auto-fit,minmax(160px,1fr))}.layout{grid-template-columns:minmax(240px,1fr) minmax(0,2fr)}.panel{background:var(--panel);border:1px solid #374258;border-radius:16px;padding:1.1rem}.value{display:block;font-size:1.65rem;font-weight:750}
+label{display:block;margin:.75rem 0 .25rem}select,button,input,textarea{font:inherit}select,textarea{width:100%;padding:.55rem;border:1px solid #61708b;border-radius:8px;background:#11192c;color:inherit}input[type=range]{width:100%;accent-color:var(--accent)}button{cursor:pointer;border:0;padding:.65rem .85rem;border-radius:8px;background:var(--accent);color:#261a1a;margin:.35rem .25rem .35rem 0}button.secondary{background:#394863;color:white}svg{width:100%;height:auto;display:block}table{width:100%;border-collapse:collapse;text-align:left}td,th{padding:.5rem;border-bottom:1px solid #46536d}section{margin-top:1rem}details{margin-top:1rem}summary{cursor:pointer}@media(max-width:720px){.layout{grid-template-columns:1fr}}
+</style>
+<header>
+<span class="badge">SIMULATED MARKETS</span>
+<h1>NBA Integrity Intelligence</h1>
+<p>Review unusual quote moves, disagreements between feeds, and delayed updates against real NBA game context.</p>
+<p class="muted">All quotes, injected events, and alerts are fictional. Game records provide context. Alerts are prompts for review.</p>
+<a href="https://github.com/Mykeil-tzul/nba-integrity-intelligence">GitHub and methodology</a>
+</header>
+<main id="desk" hidden>
+<div class="cards" id="metrics"></div>
+<div class="layout">
+<section class="panel">
+<h2>Review queue</h2>
+<label for="detector">Detection method</label><select id="detector"><option value="model">Isolation Forest</option><option value="rule">Threshold rules</option></select>
+<label for="threshold">Alert cutoff <output id="cutoff"></output></label><input id="threshold" type="range" aria-label="Alert cutoff">
+<label for="case">Choose an alert</label><select id="case"></select>
+<button type="button" id="example">Find a routine alert</button>
+<p class="muted" id="queue"></p>
+</section>
+<section class="panel">
+<h2>Case evidence</h2>
+<h3 id="case-title"></h3><p class="muted" id="context"></p><p id="signals"></p>
+<svg id="chart" viewBox="0 0 600 245" role="img" aria-label="Simulated primary and reference quotes over 18 ticks"></svg>
+<p class="muted">Coral · primary feed &nbsp; Teal · reference feed</p>
+<label for="tick">Inspect tick</label><input id="tick" type="range" min="0" max="17" value="8"><p id="tick-details"></p>
+<details id="truth"><summary>Reveal simulation label</summary><p id="label"></p></details>
+<label for="notes">Review notes</label><textarea id="notes" rows="2" maxlength="500" placeholder="Why does this alert need a closer look?"></textarea>
+<button type="button" id="follow">Mark for follow-up</button><button type="button" class="secondary" id="dismiss">Dismiss</button>
+<p id="review" aria-live="polite"></p>
+</section>
+</div>
+<section class="panel"><h2>Default detector comparison</h2><p id="split" class="muted"></p>
+<table><thead><tr><th>Method</th><th>Precision</th><th>Recall</th><th>False alerts</th></tr></thead><tbody id="compare"></tbody></table></section>
+</main>
+<p id="loading" role="status">Loading the review desk…</p>
+<script src="desk.js" defer></script>
+</html>
