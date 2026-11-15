@@ -1,4 +1,4 @@
-name: Publish integrity review desk
+name: Publish CourtCoach AI
 on:
   push:
     branches: [main]
@@ -8,7 +8,7 @@ permissions:
   pages: write
   id-token: write
 concurrency:
-  group: integrity-pages
+  group: courtcoach-pages
   cancel-in-progress: true
 jobs:
   deploy:

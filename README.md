@@ -1,35 +1,33 @@
-# NBA Integrity Intelligence
+# CourtCoach AI
 
-[**Open the live review desk**](https://mykeil-tzul.github.io/nba-integrity-intelligence/)
+**[Open the live app](https://mykeil-tzul.github.io/courtcoach-ai/)**
 
-I built this project to explore how an analyst might review unusual market activity without treating every unusual move as suspicious. The demo uses completed NBA game records for context and fictional quote feeds to test which alerts an analyst would see.
+CourtCoach AI turns three short basketball clips into a seven-day practice plan. It’s for players who can watch their film but want help deciding what to practice next. The goal is to make a film-to-workout routine available even when a player doesn’t have a coach or trainer watching every session.
 
 ## Try it
 
-1. Pick **Isolation Forest** or **Threshold rules** and move the alert cutoff. Watch the queue, precision, recall, and false alert count change.
-2. Open an alert and inspect the primary and reference quotes one tick at a time. The review panel also shows how old each update is.
-3. Select **Find a routine alert**, reveal the simulation label, and decide whether to dismiss the case or mark it for follow-up. Review notes and decisions stay in memory for the current visit.
+Start with **Explore sample review** for an example plan. The sample observations are fictional and separate from the GameLens footage shown in the header.
 
-## Data and evaluation
+1. Add a profile with your position, skill level, playing style, goal, practice time, and available equipment.
+2. Choose three clips. Identify yourself by jersey or position, mark a moment, and describe what you see. **Show AI pose** optionally overlays frame-level MediaPipe landmarks, and you can select your own marker when the player is clearly visible.
+3. Confirm the observations and build the report. Each observation links back to its clip and timestamp. Your plan includes skill work, film review, and a repeatable test near the end of the week.
+4. Track clean attempts in the local practice log, download the plan, and use the court or trainer search links to find places to practice.
 
-I took game dates, IDs, appearance counts, and combined box-score points from my [NBA Cloud Data Platform](https://github.com/Mykeil-tzul/nba-cloud-data-platform). The snapshot contains 5,100 games. Game data gives each case context. The model scores only three market features from the simulated feed.
+## How the coaching works
 
-The generator assigns fictional price jumps, feed disagreements, and stale updates. It also includes routine volatility. A rule flags large values in any of three signals. Isolation Forest scores unusual combinations of the same signals. I fit it on 3,830 earlier games and fixed the cutoff using the training score distribution. The 1,270 later games include 98 injected events.
+[MediaPipe Pose Landmarker](https://developers.google.com/edge/mediapipe/solutions/vision/pose_landmarker) supplies the AI pose overlay. The model can miss players in wide shots, crowded scenes, and clips with poor lighting. The overlay is for a paused frame and can’t follow an identity across the video.
 
-| Default method | Precision | Recall | False alerts |
-| --- | ---: | ---: | ---: |
-| Threshold rules | 100.0% | 71.4% | 0 |
-| Isolation Forest | 98.6% | 71.4% | 1 |
+A rule-based planner ranks verified improvement observations alongside the player’s goal, then retrieves drills from an equipment-tagged library. It adjusts the practice instructions by role, playing style, skill level, and the time available. Age and height are optional profile context. They do not change workout intensity. The report explains which observations contributed to the priority. The app does not infer skill weaknesses, shot quality, or tactical intent from video by itself.
 
-Both caught 70 injected events at their default cutoffs. The rule caught the same number with one fewer false alarm. The threshold slider shows how changing the cutoff changes the review workload. These numbers describe this simulation and don’t establish accuracy on live markets. Individual alerts are fictional and make no allegation about the real games.
+No account is required. Videos and film notes remain in the current browser tab. The app downloads the pose model from Google and the pinned MediaPipe runtime from jsDelivr. Only practice-log entries are saved locally, and you can clear them. Maps and YouTube links open external searches. There is no trainer vetting or location tracking.
 
-## Reproduce and run locally
+## Run and test
 
-```bash
-python -m pip install -r requirements-training.txt
-python integrity.py
-python -m unittest discover -s tests -v
-python -m http.server 8000 --directory site
+```sh
+python3 -m http.server 8000 --directory site
+node --test tests/*.test.mjs
 ```
 
-Open `http://localhost:8000`. Training writes the evaluated rows, market ticks, and metrics to `data/` and copies the browser-ready results to `site/`. The public review desk runs on GitHub Pages. It uses the prepared scores and updates the review queue in the browser.
+Open `http://localhost:8000`. Try a short H.264 MP4 in a current Chrome or Edge browser. Clips are limited to 1–60 seconds and 120 MB each. GitHub Actions checks the coaching logic and deploys the static app to Pages. I chose client-side processing so the first version can show the film workflow without sending anyone’s videos to a server.
+
+The header still is from Myke Tzul’s [GameLens](https://github.com/Mykeil-tzul/gamelens) project.

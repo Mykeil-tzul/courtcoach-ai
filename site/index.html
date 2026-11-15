@@ -1,47 +1,67 @@
 <!doctype html>
 <html lang="en">
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>NBA Integrity Intelligence</title>
-<style>
-:root{color-scheme:dark;font:16px system-ui;background:#101523;color:#f4f4ff;--muted:#b7c2d9;--accent:#ffb27c;--panel:#1b2438}
-*{box-sizing:border-box}body{max-width:1180px;margin:auto;padding:1.5rem 1rem 4rem}header{padding:clamp(1.3rem,4vw,3rem);border-radius:24px;background:linear-gradient(120deg,#202b56,#352748 70%,#653a2d)}
-h1{font-size:clamp(2.15rem,6vw,4rem);line-height:1.05;margin:.5rem 0}h2,h3{margin-top:0}p{line-height:1.55}a{color:var(--accent)}.muted{color:var(--muted)}.badge{color:#ffca9f;font-weight:700}.cards,.layout{display:grid;gap:1rem;margin-top:1rem}.cards{grid-template-columns:repeat(auto-fit,minmax(160px,1fr))}.layout{grid-template-columns:minmax(240px,1fr) minmax(0,2fr)}.panel{background:var(--panel);border:1px solid #374258;border-radius:16px;padding:1.1rem}.value{display:block;font-size:1.65rem;font-weight:750}
-label{display:block;margin:.75rem 0 .25rem}select,button,input,textarea{font:inherit}select,textarea{width:100%;padding:.55rem;border:1px solid #61708b;border-radius:8px;background:#11192c;color:inherit}input[type=range]{width:100%;accent-color:var(--accent)}button{cursor:pointer;border:0;padding:.65rem .85rem;border-radius:8px;background:var(--accent);color:#261a1a;margin:.35rem .25rem .35rem 0}button.secondary{background:#394863;color:white}svg{width:100%;height:auto;display:block}table{width:100%;border-collapse:collapse;text-align:left}td,th{padding:.5rem;border-bottom:1px solid #46536d}section{margin-top:1rem}details{margin-top:1rem}summary{cursor:pointer}@media(max-width:720px){.layout{grid-template-columns:1fr}}
-</style>
-<header>
-<span class="badge">SIMULATED MARKETS</span>
-<h1>NBA Integrity Intelligence</h1>
-<p>Review unusual quote moves, disagreements between feeds, and delayed updates against real NBA game context.</p>
-<p class="muted">All quotes, injected events, and alerts are fictional. Game records provide context. Alerts are prompts for review.</p>
-<a href="https://github.com/Mykeil-tzul/nba-integrity-intelligence">GitHub and methodology</a>
-</header>
-<main id="desk" hidden>
-<div class="cards" id="metrics"></div>
-<div class="layout">
-<section class="panel">
-<h2>Review queue</h2>
-<label for="detector">Detection method</label><select id="detector"><option value="model">Isolation Forest</option><option value="rule">Threshold rules</option></select>
-<label for="threshold">Alert cutoff <output id="cutoff"></output></label><input id="threshold" type="range" aria-label="Alert cutoff">
-<label for="case">Choose an alert</label><select id="case"></select>
-<button type="button" id="example">Find a routine alert</button>
-<p class="muted" id="queue"></p>
-</section>
-<section class="panel">
-<h2>Case evidence</h2>
-<h3 id="case-title"></h3><p class="muted" id="context"></p><p id="signals"></p>
-<svg id="chart" viewBox="0 0 600 245" role="img" aria-label="Simulated primary and reference quotes over 18 ticks"></svg>
-<p class="muted">Coral · primary feed &nbsp; Teal · reference feed</p>
-<label for="tick">Inspect tick</label><input id="tick" type="range" min="0" max="17" value="8"><p id="tick-details"></p>
-<details id="truth"><summary>Reveal simulation label</summary><p id="label"></p></details>
-<label for="notes">Review notes</label><textarea id="notes" rows="2" maxlength="500" placeholder="Why does this alert need a closer look?"></textarea>
-<button type="button" id="follow">Mark for follow-up</button><button type="button" class="secondary" id="dismiss">Dismiss</button>
-<p id="review" aria-live="polite"></p>
-</section>
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="referrer" content="no-referrer">
+<meta name="description" content="Turn your basketball film into a seven-day training plan.">
+<title>CourtCoach AI · Basketball Development Studio</title>
+<link rel="stylesheet" href="style.css"><script type="module" src="app.mjs"></script>
+</head>
+<body>
+<header class="top"><a class="brand" href="./"><span aria-hidden="true">CC</span> CourtCoach AI</a><nav aria-label="Main navigation"><a href="#profile">Profile</a><a href="#film">Film room</a><a href="#plan">Training plan</a></nav><button type="button" id="demo" class="secondary">Try the demo</button></header>
+<main>
+<section class="hero"><div class="hero-copy">
+<p class="eyebrow">BASKETBALL DEVELOPMENT STUDIO</p><h1>Watch your game.<br>Train with purpose<span>.</span></h1>
+<p>Review three clips, turn the moments you confirm into coaching priorities, and leave with a seven-day plan built around your game.</p>
+<div class="actions"><a class="primary button" href="#profile">Build my training plan</a><button type="button" id="demo-hero" class="secondary">Explore sample review</button></div>
+</div><figure><img src="assets/court-film.jpg" alt="Basketball players on court during a game"><figcaption>Film from Myke Tzul’s public GameLens project</figcaption></figure></section>
+<div class="workflow" aria-label="Workflow"><span><b>01</b> Player profile</span><span><b>02</b> Confirm film evidence</span><span><b>03</b> Train and track</span></div>
+<p class="demo-status" id="demo-status" hidden role="status"></p>
+<section class="panel" id="profile">
+<div class="heading"><div><p class="eyebrow">01 · PROFILE</p><h2>Build around your game</h2><p>Tell the coach how you play and what you have available.</p></div></div>
+<form id="profile-form">
+<div class="form-grid">
+<label>Player name or nickname <input name="player" maxlength="50" placeholder="Your nickname" required></label>
+<label>Age (optional) <input name="age" type="number" min="8" max="100" placeholder="Age"></label>
+<label>Height (cm, optional) <input name="height" type="number" min="90" max="260" placeholder="e.g. 183"></label>
+<label>Position <select name="role"><option>Guard</option><option>Wing</option><option>Big</option></select></label>
+<label>Skill level <select name="level"><option>Beginner</option><option selected>Intermediate</option><option>Advanced</option></select></label>
+<label>Playing style <select name="style"><option>Slasher</option><option>Shooter</option><option>Playmaker</option><option>Two-way</option></select></label>
+<label>Primary goal <select name="goal" id="goal"></select></label>
+<label>Practice minutes per training day <input name="minutes" type="number" min="15" max="90" value="30" required></label>
 </div>
-<section class="panel"><h2>Default detector comparison</h2><p id="split" class="muted"></p>
-<table><thead><tr><th>Method</th><th>Precision</th><th>Recall</th><th>False alerts</th></tr></thead><tbody id="compare"></tbody></table></section>
+<fieldset><legend>Equipment available</legend><label><input name="equipment" type="checkbox" value="ball" checked> Basketball</label><label><input name="equipment" type="checkbox" value="hoop" checked> Hoop</label><label><input name="equipment" type="checkbox" value="partner"> Training partner</label></fieldset>
+</form></section>
+<section class="panel" id="film">
+<div class="heading"><div><p class="eyebrow">02 · FILM ROOM</p><h2>Review three moments</h2><p>Choose three clips. In each, identify yourself, mark the moment, and confirm what you see.</p></div><span class="badge" id="review-count">0 / 3 confirmed</span></div>
+<p class="hint">Your footage stays in this browser. Optional AI pose markers use the visible frame. You choose the player and confirm the basketball observation.</p>
+<div id="clip-grid" class="clip-grid"></div>
+<div class="actions generate"><button type="button" id="generate" class="primary">Build my seven-day plan</button><p id="plan-status" role="status"></p></div>
+</section>
+<section class="panel" id="plan">
+<div class="heading"><div><p class="eyebrow">03 · DEVELOPMENT PLAN</p><h2>What to train next</h2><p id="plan-intro">Confirm all three observations to create a coaching report and plan.</p></div><button type="button" id="export" class="secondary" disabled>Download plan</button></div>
+<div id="report"></div><div id="days" class="day-grid"></div>
+</section>
+<section class="footer-grid">
+<article class="panel" id="progress"><h2>Training log</h2><p>Save practice results in this browser and use the same drill setup when you retest.</p>
+<form id="log-form" class="log-form"><label>Drill or focus <input name="drill" maxlength="80" required placeholder="e.g. Change-of-pace attack"></label><label>Clean attempts <input name="clean" type="number" min="0" max="500" required></label><label>Total attempts <input name="total" type="number" min="1" max="500" required></label><button class="secondary">Log result</button></form>
+<p id="log-status" role="status"></p><ul id="log-list"></ul><button type="button" id="clear-log" class="secondary" disabled>Clear log</button></article>
+<article class="panel" id="resources"><h2>Find somewhere to train</h2><p>Search nearby courts or trainers using a city or ZIP code. Search links open the provider with the location you enter.</p>
+<form id="resource-form" class="log-form"><label>City or ZIP <input name="place" maxlength="80" required placeholder="e.g. Brooklyn, NY"></label><button class="secondary">Find resources</button></form><div id="resource-links" class="resource-links"></div>
+<a id="video-search" target="_blank" rel="noopener noreferrer" href="https://www.youtube.com/results?search_query=basketball+skill+development+drills">Search basketball drill videos ↗</a>
+</article></section>
 </main>
-<p id="loading" role="status">Loading the review desk…</p>
-<script src="desk.js" defer></script>
-</html>
+<footer>CourtCoach AI · Film-assisted basketball coaching · Videos stay on your device</footer>
+<template id="clip-template">
+<article class="clip"><h3 class="clip-title"></h3><div class="preview"><video controls muted playsinline hidden></video><canvas hidden aria-label="AI pose preview. Select a player using the controls below." role="img"></canvas><p class="empty">Choose a basketball clip to start.</p></div>
+<label>Select clip <input class="file" type="file" accept="video/*,.mov,.mp4,.webm"></label>
+<div class="actions clip-actions"><button class="mark secondary" type="button" disabled>Use current time</button><button class="pose secondary" type="button" disabled>Show AI pose</button></div>
+<p class="pose-status hint" role="status"></p><div class="pose-options actions"></div>
+<label>Which player are you? <input class="who" maxlength="90" placeholder="e.g. No. 12 in white, left wing"></label>
+<div class="pair"><label>Moment (seconds or M:SS) <input class="time" inputmode="decimal" placeholder="0:08"></label><label>Skill <select class="skill"></select></label></div>
+<p class="cue hint"></p>
+<label>What did you see? <textarea class="note" maxlength="300" rows="3" placeholder="Describe what happened at this moment."></textarea></label>
+<div class="pair"><label>Type <select class="kind"><option value="improve">Work on this</option><option value="strength">Keep doing this</option></select></label><label class="confirm"><input class="confirmed" type="checkbox"> I confirm this observation</label></div>
+</article>
+</template>
+</body></html>
