@@ -15,7 +15,9 @@ function node(tag,value,cls) {
 }
 
 function clipTime(t) {
-  return Math.floor(t/60)+":"+String(Math.floor(t%60)).padStart(2,"0");
+  const whole=Math.floor(t);
+  const fraction=Math.round((t-whole)*100);
+  return Math.floor(whole/60)+":"+String(whole%60).padStart(2,"0")+(fraction ? "."+String(fraction).padStart(2,"0").replace(/0$/,"") : "");
 }
 
 function options(select) {
@@ -352,7 +354,7 @@ $("case").onclick=()=>{
     item.fields.empty.hidden=true;
   });
   $("demo-status").hidden=false;
-  $("demo-status").textContent="Real GameLens footage with draft observations about visible players. Player identity, coach review, and training outcomes are unverified.";
+  $("demo-status").textContent="Myke Tzul identified himself as jersey No. 3. The first two clips show No. 3. The transition clip is a tentative match. Review the draft notes before confirming. Coach review and training outcomes are pending.";
   updateCount();
   $("film").scrollIntoView({block:"start"});
 };

@@ -15,7 +15,7 @@ Choose **Review real game film** for a guided walkthrough, or **Explore sample r
 
 ## Real-film walkthrough
 
-The built-in review uses three clips published in GameLens: a half-court drive, a baseline-angle possession, and a transition play. Each opens at the moment discussed in a draft observation. Read the note, replay the clip, and confirm or edit what you see before generating a plan. The notes refer to the roles visible on screen. They have not been verified as a single player's assessment or reviewed by a coach.
+The built-in review uses three clips published in GameLens: a half-court drive, a baseline-angle possession, and a transition play. Each opens at the moment discussed in a draft observation. Read the note, replay the clip, and confirm or edit what you see before generating a plan. Myke Tzul identified himself as jersey No. 3. The first two excerpts show No. 3 around 0:03.1 and 0:04. The transition excerpt is a tentative identification because the number is blurred. The observations are drafts awaiting coach review.
 
 For a follow-up, log a baseline and a later result for the same drill with the same number of attempts. For example, a player could log clean reads out of ten under the same setup. The journal compares the latest entry with the first matching entry and displays the change in percentage points. No athlete results are prefilled.
 

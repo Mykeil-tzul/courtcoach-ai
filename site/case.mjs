@@ -3,17 +3,17 @@
 export const caseClips=[
   {
     file:"highlight-reel", title:"Half-court drive",
-    time:2.5, skill:"reads", kind:"improve", player:"Light-jersey ball handler, right side",
-    note:"The ball handler drives from the right while multiple defenders converge near the paint. Pause before the crowd arrives and identify an outlet if the driving lane closes."
+    time:3.1, skill:"shooting", kind:"strength", player:"Light jersey No. 3, right-side ball handler",
+    note:"No. 3 bends his knees and brings the ball into his shooting motion as a defender reaches toward him. Rewatch the gather and look for the moment he creates room to rise."
   },
   {
     file:"baseline-camera", title:"Baseline-angle spacing",
-    time:2.5, skill:"spacing", kind:"strength", player:"Dark jersey No. 23, near-side wing",
-    note:"No. 23 starts outside the paint on the near side while players converge nearer the baseline. The wide position keeps a passing window available away from the cluster."
+    time:4, skill:"finishing", kind:"improve", player:"Dark jersey No. 3, inside the paint",
+    note:"No. 3 has a defender alongside him in the paint. Freeze at the contact point and review which finishing angle could keep the ball farther from the defender."
   },
   {
     file:"broadcast-transition", title:"Transition lane fill",
-    time:2.5, skill:"spacing", kind:"improve", player:"Light-jersey runner on the near side",
-    note:"The light-jersey runner advances on the near side as the ball and defenders move toward the right basket. Replay the next two seconds and check whether the runner could stay wider to preserve a passing lane."
+    time:1, skill:"spacing", kind:"improve", player:"Possible No. 3, light-jersey runner on the near side",
+    note:"The near-side runner advances as the play moves toward the right basket. The jersey number is blurred. Confirm the player before using this moment to review how wide he runs in transition."
   }
 ];
