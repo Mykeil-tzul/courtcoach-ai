@@ -6,12 +6,18 @@ CourtCoach AI turns three short basketball clips into a seven-day practice plan.
 
 ## Try it
 
-Start with **Explore sample review** for an example plan. The sample observations are fictional and separate from the GameLens footage shown in the header.
+Choose **Review real game film** for a guided walkthrough, or **Explore sample review** for an instant example plan. The sample observations are fictional and separate from the GameLens footage shown in the header.
 
 1. Add a profile with your position, skill level, playing style, goal, practice time, and available equipment.
 2. Choose three clips. Identify yourself by jersey or position, mark a moment, and describe what you see. **Show AI pose** optionally overlays frame-level MediaPipe landmarks, and you can select your own marker when the player is clearly visible.
 3. Confirm the observations and build the report. Each observation links back to its clip and timestamp. Your plan includes skill work, film review, and a repeatable test near the end of the week.
 4. Track clean attempts in the local practice log, download the plan, and use the court or trainer search links to find places to practice.
+
+## Real-film walkthrough
+
+The built-in review uses three clips published in GameLens: a half-court drive, a baseline-angle possession, and a transition play. Each opens at the moment discussed in a draft observation. Read the note, replay the clip, and confirm or edit what you see before generating a plan. The notes refer to the roles visible on screen. They have not been verified as a single player's assessment or reviewed by a coach.
+
+For a follow-up, log a baseline and a later result for the same drill with the same number of attempts. For example, a player could log clean reads out of ten under the same setup. The journal compares the latest entry with the first matching entry and displays the change in percentage points. No athlete results are prefilled.
 
 ## How the coaching works
 

@@ -1,8 +1,9 @@
-import {buildPlan,parseTime,topics,validReview} from "./coach.mjs";
+import {caseClips} from "./case.mjs";
+import {buildPlan,compareAttempts,parseTime,topics,validReview} from "./coach.mjs";
 
 const $=id=>document.getElementById(id);
 const form=$("profile-form");
-let demo=false, plan=null, detectorPromise;
+let demo=false, caseActive=false, plan=null, detectorPromise;
 const completed=new Set();
 const storeKey="courtcoach.practice.v1";
 
@@ -55,9 +56,11 @@ function clearPose(item) {
 function unload(item) {
   item.ready=false;
   item.video.pause();
+  item.video.onloadeddata=null;
+  item.video.onerror=null;
   item.video.removeAttribute("src");
   item.video.load();
-  if (item.url) URL.revokeObjectURL(item.url);
+  if (item.url?.startsWith("blob:")) URL.revokeObjectURL(item.url);
   item.url=null;
   item.video.hidden=true;
   item.fields.empty.hidden=false;
@@ -67,12 +70,15 @@ function unload(item) {
 }
 
 function loadClip(item) {
-  if (demo) {
+  if (demo || caseActive) {
     demo=false;
+    caseActive=false;
     for (const clip of clips) {
+      if (clip!==item) unload(clip);
       for (const key of ["who","time","note"]) clip.fields[key].value="";
       clip.fields.confirmed.checked=false;
       clip.fields.empty.textContent="Choose a basketball clip to start.";
+      clip.element.querySelector(".clip-title").textContent="Clip "+(clip.i+1);
     }
     $("demo-status").hidden=true;
   }
@@ -285,6 +291,7 @@ const example=[
 function loadDemo() {
   if (!demo && clips.some(c=>c.url || c.fields.note.value.trim()) && !confirm("Replace the clips and notes on this page with the sample review?")) return;
   demo=true;
+  caseActive=false;
   for (const [key,value] of Object.entries({player:"Jordan · sample player",role:"Guard",level:"Intermediate",style:"Playmaker",goal:"handle",minutes:30})) {
     form.elements.namedItem(key).value=value;
   }
@@ -294,6 +301,7 @@ function loadDemo() {
   clips.forEach((item,i)=>{
     unload(item);
     item.fields.file.value="";
+    item.element.querySelector(".clip-title").textContent="Clip "+(item.i+1);
     const [skill,kind,who,note,time]=example[i];
     for (const [key,value] of Object.entries({skill,kind,who,note,time})) item.fields[key].value=value;
     item.fields.cue.textContent=topics[skill].cue;
@@ -308,6 +316,46 @@ function loadDemo() {
 
 $("demo").onclick=loadDemo;
 $("demo-hero").onclick=loadDemo;
+$("case").onclick=()=>{
+  if (!demo && !caseActive && clips.some(c=>c.url || c.fields.note.value.trim()) &&
+      !confirm("Replace the clips and notes on this page with the GameLens film review?")) return;
+  demo=false;
+  caseActive=true;
+  resetPlan("Review all three moments, then confirm the observations to build a plan.");
+  for (const [key,value] of Object.entries({player:"Film review",role:"Wing",level:"Intermediate",style:"Playmaker",goal:"spacing",minutes:30})) {
+    form.elements.namedItem(key).value=value;
+  }
+  for (const key of ["age","height"]) form.elements.namedItem(key).value="";
+  clips.forEach((item,i)=>{
+    unload(item);
+    const {file,title,...fields}=caseClips[i];
+    item.fields.file.value="";
+    item.element.querySelector(".clip-title").textContent=(i+1)+" · "+title;
+    for (const [key,value] of Object.entries(fields)) item.fields[key==="player" ? "who" : key].value=value;
+    item.fields.cue.textContent=topics[fields.skill].cue;
+    item.fields.confirmed.checked=false;
+    item.url="assets/case/"+file+".mp4";
+    const url=item.url;
+    item.video.onloadeddata=()=>{
+      if (item.url!==url) return;
+      item.ready=fields.time<item.video.duration;
+      item.fields.mark.disabled=item.fields.pose.disabled=!item.ready;
+      if (item.ready) item.video.currentTime=fields.time;
+      item.fields["pose-status"].textContent="Review note at "+clipTime(fields.time)+". Confirm after watching.";
+      updateCount();
+    };
+    item.video.onerror=()=>{
+      if (item.url===url) item.fields["pose-status"].textContent="The film excerpt did not load. Try reloading this page.";
+    };
+    item.video.src=url;
+    item.video.hidden=false;
+    item.fields.empty.hidden=true;
+  });
+  $("demo-status").hidden=false;
+  $("demo-status").textContent="Real GameLens footage with draft observations about visible players. Player identity, coach review, and training outcomes are unverified.";
+  updateCount();
+  $("film").scrollIntoView({block:"start"});
+};
 $("export").onclick=()=>{
   if (!plan) return;
   const {profile,priority,reviews,days}=plan;
@@ -343,6 +391,13 @@ function renderLog() {
   }).reverse();
   $("log-list").replaceChildren(...items);
   $("clear-log").disabled=!log.length;
+  const comparison=compareAttempts(log);
+  $("retest").hidden=!comparison;
+  if (comparison) {
+    const {baseline,retest,change}=comparison;
+    $("retest").textContent="Latest matched retest · "+retest.drill+" · "+baseline.clean+"/"+baseline.total+
+      " to "+retest.clean+"/"+retest.total+" ("+(change>=0?"+":"")+change+" percentage points).";
+  }
 }
 $("log-form").onsubmit=event=>{
   event.preventDefault();

@@ -90,3 +90,13 @@ export function parseTime(value) {
   const match=/^(\d+):([0-5]\d(?:\.\d+)?)$/.exec(text);
   return match ? Number(match[1])*60+Number(match[2]) : NaN;
 }
+
+// A matched retest compares the first and latest entry for the same drill and attempt count.
+export function compareAttempts(entries) {
+  const retest=entries.at(-1);
+  if (!retest) return null;
+  const baseline=entries.slice(0,-1).find(entry=>
+    entry.drill.trim().toLowerCase()===retest.drill.trim().toLowerCase() && entry.total===retest.total);
+  if (!baseline) return null;
+  return {baseline,retest,change:Math.round(100*(retest.clean-baseline.clean)/retest.total)};
+}

@@ -13,7 +13,7 @@
 <section class="hero"><div class="hero-copy">
 <p class="eyebrow">BASKETBALL DEVELOPMENT STUDIO</p><h1>Watch your game.<br>Train with purpose<span>.</span></h1>
 <p>Review three clips, turn the moments you confirm into coaching priorities, and leave with a seven-day plan built around your game.</p>
-<div class="actions"><a class="primary button" href="#profile">Build my training plan</a><button type="button" id="demo-hero" class="secondary">Explore sample review</button></div>
+<div class="actions"><a class="primary button" href="#profile">Build my training plan</a><button type="button" id="case" class="secondary">Review real game film</button><button type="button" id="demo-hero" class="secondary">Explore sample review</button></div>
 </div><figure><img src="assets/court-film.jpg" alt="Basketball players on court during a game"><figcaption>Film from Myke Tzul’s public GameLens project</figcaption></figure></section>
 <div class="workflow" aria-label="Workflow"><span><b>01</b> Player profile</span><span><b>02</b> Confirm film evidence</span><span><b>03</b> Train and track</span></div>
 <p class="demo-status" id="demo-status" hidden role="status"></p>
@@ -45,7 +45,7 @@
 <section class="footer-grid">
 <article class="panel" id="progress"><h2>Training log</h2><p>Save practice results in this browser and use the same drill setup when you retest.</p>
 <form id="log-form" class="log-form"><label>Drill or focus <input name="drill" maxlength="80" required placeholder="e.g. Change-of-pace attack"></label><label>Clean attempts <input name="clean" type="number" min="0" max="500" required></label><label>Total attempts <input name="total" type="number" min="1" max="500" required></label><button class="secondary">Log result</button></form>
-<p id="log-status" role="status"></p><ul id="log-list"></ul><button type="button" id="clear-log" class="secondary" disabled>Clear log</button></article>
+<p id="log-status" role="status"></p><div id="retest" class="priority" hidden></div><ul id="log-list"></ul><button type="button" id="clear-log" class="secondary" disabled>Clear log</button></article>
 <article class="panel" id="resources"><h2>Find somewhere to train</h2><p>Search nearby courts or trainers using a city or ZIP code. Search links open the provider with the location you enter.</p>
 <form id="resource-form" class="log-form"><label>City or ZIP <input name="place" maxlength="80" required placeholder="e.g. Brooklyn, NY"></label><button class="secondary">Find resources</button></form><div id="resource-links" class="resource-links"></div>
 <a id="video-search" target="_blank" rel="noopener noreferrer" href="https://www.youtube.com/results?search_query=basketball+skill+development+drills">Search basketball drill videos ↗</a>
