@@ -15,8 +15,9 @@ function node(tag,value,cls) {
 }
 
 function clipTime(t) {
-  const whole=Math.floor(t);
-  const fraction=Math.round((t-whole)*100);
+  const hundredths=Math.round(t*100);
+  const whole=Math.floor(hundredths/100);
+  const fraction=hundredths%100;
   return Math.floor(whole/60)+":"+String(whole%60).padStart(2,"0")+(fraction ? "."+String(fraction).padStart(2,"0").replace(/0$/,"") : "");
 }
 
