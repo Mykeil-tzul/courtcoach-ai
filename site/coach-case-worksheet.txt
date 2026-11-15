@@ -1,0 +1,28 @@
+CourtCoach · No. 3 film review and drill retest
+
+Open CourtCoach and choose Review real game film. The app cues three moments.
+Use the actual time shown if you review a different moment.
+
+Coach review (draft notes are already present in the app)
+- Half-court drive: time, jersey identification, what you see, and one coaching cue
+- Baseline-angle possession: time, jersey identification, what you see, and one coaching cue
+- Transition: time, whether you can confirm No. 3, what you see, and one coaching cue
+- Pick one priority for the next session.
+
+Baseline and retest
+- Drill name and skill:
+- Setup (distance, starting position, partner or defender, time limit, equipment):
+- What counts as a clean attempt:
+- Baseline date and clean attempts / total:
+- What you practiced in between:
+- Retest date and clean attempts / total:
+- Changes in conditions or other factors that could affect comparison:
+- Coach's interpretation:
+
+Use the same drill setup, scoring rule, and number of attempts both times.
+The result describes this drill under these conditions. Keep the counts even if
+the retest stays flat or worsens.
+
+Share this worksheet privately with the project owner. Before anything goes on
+the public site, separately confirm which notes, results, names, and media
+each contributor has agreed may be published.

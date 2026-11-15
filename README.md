@@ -37,3 +37,5 @@ node --test tests/*.test.mjs
 Open `http://localhost:8000`. Try a short H.264 MP4 in a current Chrome or Edge browser. Clips are limited to 1–60 seconds and 120 MB each. GitHub Actions checks the coaching logic and deploys the static app to Pages. I chose client-side processing so the first version can show the film workflow without sending anyone’s videos to a server.
 
 The header still is from Myke Tzul’s [GameLens](https://github.com/Mykeil-tzul/gamelens) project.
+
+The [No. 3 coach review and retest worksheet](site/coach-case-worksheet.txt) records the coach’s observations, one practice priority, and baseline and retest counts under the same conditions. The public walkthrough still uses draft observations. Coach feedback and measured drill results are pending.
