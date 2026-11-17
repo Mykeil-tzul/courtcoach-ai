@@ -1,0 +1,69 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="description" content="Compare jump-shot motion with browser-based pose estimation and a personal shooting journal.">
+<title>ShotDNA | CourtCoach AI</title>
+<link rel="stylesheet" href="style.css"><link rel="stylesheet" href="shotdna.css">
+<script type="module" src="shotdna.mjs"></script>
+</head>
+<body>
+<header class="top"><a class="brand" href="./"><span aria-hidden="true">CC</span> CourtCoach AI</a><nav aria-label="Main navigation"><a href="./#film">Film room</a><a href="./#plan">Training plan</a><a href="#journal">Shot journal</a></nav><a class="button secondary" href="./">Back to coach</a></header>
+<main>
+<section class="dna-hero">
+<div><p class="eyebrow">SHOTDNA · YOUR SHOOTING BASELINE</p><h1>Get to know<br>your shot.</h1><p>Mark the gather and release. Measure the visible movement. Compare your next session with your own baseline.</p><div class="actions"><a class="primary button" href="#shooting-lab">Analyze my shot</a><button class="secondary" id="example" type="button">See an example report</button></div></div>
+<img src="assets/court-film.jpg" alt="Basketball game film from Myke Tzul’s playing days" width="640" height="360">
+</section>
+<div class="workflow"><span><b>01</b> Choose a clear clip</span><span><b>02</b> Confirm two poses</span><span><b>03</b> Compare your reps</span></div>
+<section class="panel" id="shooting-lab" aria-labelledby="lab-title">
+<div class="heading"><div><p class="eyebrow">MOTION LAB</p><h2 id="lab-title">Two moments tell a story.</h2><p>Use a side-on clip with one shooter and their full body in view. Keep the phone steady and use the same camera angle when you retest.</p></div></div>
+<div class="dna-layout">
+<div>
+<div class="dna-video"><video id="shot-video" controls muted playsinline preload="none"></video><canvas id="shot-canvas" aria-label="Selected pose landmarks" hidden></canvas></div>
+<div class="actions"><label class="button secondary">Choose video<input id="shot-file" type="file" accept="video/*,.mp4,.mov,.webm"></label><button type="button" class="secondary" id="sample-film">Try Myke’s game clip</button></div>
+<p class="hint">Local video stays on your device. Use a 1–60 second clip, up to 120 MB. The game clip shows why crowded footage can be harder to measure.</p>
+<div class="actions"><button type="button" class="secondary" id="frame-back" disabled>−0.05s</button><button type="button" class="secondary" id="frame-forward" disabled>+0.05s</button><button type="button" class="primary" id="detect" disabled>Analyze paused frame</button></div>
+<p id="pose-feedback" role="status">Choose a clip and pause at the lowest point of your shooting gather.</p>
+<div id="people" class="actions"></div>
+<p id="measurements" class="hint"></p>
+</div>
+<div>
+<div class="form-grid dna-form">
+<label>Session date<input id="session-date" type="date" required></label>
+<label>Shooting hand<select id="hand"><option value="right">Right</option><option value="left">Left</option></select></label>
+</div>
+<label>Repeatable camera / drill setup<input id="setup" maxlength="120" placeholder="e.g. Side-on tripod, right elbow, set shot" required></label>
+<p class="hint">Record the same setup name for comparisons. Angles are estimates from the image plane and change with camera position.</p>
+<div class="dna-marks">
+<button type="button" class="secondary" id="mark-gather" disabled>Mark gather</button><p id="gather-mark">Choose the lowest gather frame.</p>
+<button type="button" class="secondary" id="mark-release" disabled>Mark release</button><p id="release-mark">Choose the frame where the ball leaves the hand.</p>
+</div>
+<label>Shot result you observed<select id="outcome"><option value="unrecorded">Not recorded</option><option value="made">Made</option><option value="missed">Missed</option></select></label>
+<div class="actions"><button type="button" class="primary" id="add-shot" disabled>Add this shot</button><button type="button" class="secondary" id="reset-marks">Reset marks</button></div>
+<p id="shot-feedback" role="status"></p>
+</div>
+</div>
+</section>
+<section class="panel" id="report-panel">
+<div class="heading"><div><p class="eyebrow">YOUR MOTION FINGERPRINT</p><h2>Repeat the setup. See the pattern.</h2></div><button type="button" class="secondary" id="save-session" disabled>Save session</button></div>
+<p id="report-status" role="status">Add measured attempts to compare elbow angle, knee bend, and gather-to-release time.</p>
+<div id="metrics" class="report-grid"></div>
+<svg id="shot-chart" viewBox="0 0 700 190" role="img" aria-label="Elbow angle at release across attempts" hidden></svg>
+<div class="dna-table"><table><caption>Measured attempts in the current session</caption><thead><tr><th>Attempt</th><th>Release elbow</th><th>Gather knee</th><th>Gather → release</th><th>Observed result</th><th>Action</th></tr></thead><tbody id="attempts"></tbody></table></div>
+<p id="motion-note" class="hint"></p>
+</section>
+<section class="panel" id="journal">
+<div class="heading"><div><p class="eyebrow">SHOOTING JOURNAL</p><h2>Compare with your baseline.</h2><p>Saved measurements stay in this browser. Export a backup before switching devices.</p></div></div>
+<div class="pair"><label>Baseline<select id="baseline"></select></label><label>Later session<select id="followup"></select></label></div>
+<p id="comparison" role="status"></p>
+<ul id="sessions"></ul>
+<div class="actions"><button type="button" class="secondary" id="export-shots">Download journal</button><label class="button secondary">Import journal<input id="import-shots" type="file" accept=".json,application/json"></label></div>
+<p id="journal-status" role="status"></p>
+</section>
+<details class="panel"><summary>What do the measurements mean?</summary>
+<p>Elbow and knee angles use the visible shoulder–elbow–wrist and hip–knee–ankle landmarks. Low-visibility or off-frame joints are excluded. You choose the shooter separately at each frame. Pose estimation supplies the landmarks. Your marked frames supply the gather and release times.</p>
+<p>The report shows average angles and standard deviation across your attempts. A smaller spread means your measurements repeated more closely under that setup. Different successful shooters can have different mechanics. The app gives descriptive comparisons, and a coach can help interpret changes alongside results and comfort.</p>
+<p>These 2D estimates have no calibrated biomechanics accuracy score. Ball tracking, automatic shot detection, release-height estimates, and coaching validation require further work. <a href="https://developers.google.com/edge/mediapipe/solutions/vision/pose_landmarker">MediaPipe Pose Landmarker documentation</a></p>
+</details>
+</main><footer>ShotDNA by CourtCoach AI · Compare your own motion · Marked frames and estimated landmarks</footer>
+</body></html>

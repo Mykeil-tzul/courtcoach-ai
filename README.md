@@ -4,6 +4,24 @@
 
 CourtCoach AI turns three short basketball clips into a seven-day practice plan. It’s for players who can watch their film but want help deciding what to practice next. The goal is to make a film-to-workout routine available even when a player doesn’t have a coach or trainer watching every session.
 
+## ShotDNA shooting lab
+
+[Open ShotDNA](https://mykeil-tzul.github.io/courtcoach-ai/shotdna.html), also linked in the app’s navigation and hero. Use a side-on, steady-phone clip with one shooter fully visible.
+
+1. Choose a local video or try Myke’s crowded game excerpt.
+2. Pause at the gather, analyze the frame, choose the correct pose, and mark the gather.
+3. Pause at the release, analyze it again, choose the same shooter, and mark the release.
+4. Enter the observed make or miss if known, then add the attempt. Repeat to build a session.
+5. Save the session with the camera and drill setup. Compare it with another session using the same setup name and shooting hand.
+
+The report measures release elbow angle and gather knee angle in the image plane. It calculates elapsed time between the two manually selected frames. Landmarks must be inside the image and have visibility at least 0.65. Missing or degenerate joints produce no measurement. Aspect ratio is included in the angle calculation. Three or more attempts enable a standard-deviation view of how closely the measurements repeat.
+
+The chart and journal show averages and spread. The app makes no claim that a tighter spread improves shooting accuracy. A marked time interval is not an automatically detected release. It cannot measure elbow alignment in depth, ball flight, release height, or identify the shooter across frames. Coach validation and camera-calibrated biomechanical accuracy remain pending.
+
+**See an example report** uses six clearly labeled synthetic attempts to demonstrate the interface. Synthetic attempts cannot be saved as measured sessions. Actual measurements and a manually recorded outcome can be saved locally, exported, imported, compared, or deleted. Local video is held in memory and never included in the journal export. The optional model and runtime download from Google and jsDelivr. The journal holds up to 100 sessions with up to 100 shots each.
+
+The numerical tests cover known geometric angles, aspect ratio, occlusion rejection, reversed timestamps, invalid imports, session statistics, and incompatible setups. A Chrome browser smoke test loaded the actual pose model on the game excerpt, marked two usable frames, saved a session, restored it after reload, imported a follow-up, compared the sessions, and rejected an invalid backup without replacing the journal. These checks verify the workflow. Real shooting accuracy or biomechanics validation has not been measured.
+
 ## Try it
 
 Choose **Review real game film** for a guided walkthrough, or **Explore sample review** for an instant example plan. The sample observations are fictional and separate from the GameLens footage shown in the header.

@@ -1,0 +1,25 @@
+.dna-hero{display:grid;grid-template-columns:1.2fr 1fr;gap:2rem;align-items:center;padding:clamp(1rem,4vw,3rem);margin:1.5rem 0;background:linear-gradient(120deg,#30231c,#122b30);border:1px solid #574534;border-radius:20px}
+.dna-hero h1{font-size:clamp(2.8rem,6vw,5.8rem);line-height:1;letter-spacing:-.055em}
+.dna-hero p:not(.eyebrow){margin:1rem 0;color:var(--muted);max-width:42ch}
+.dna-hero img{display:block;width:100%;aspect-ratio:1.2;object-fit:cover;border-radius:12px}
+.dna-layout{display:grid;grid-template-columns:1.25fr 1fr;gap:1.5rem;align-items:start}
+.dna-layout label{margin:.7rem 0}
+.dna-form{grid-template-columns:1fr 1fr}
+.dna-video{position:relative;background:#090c10;border-radius:12px;overflow:hidden}
+.dna-video video{display:block;width:100%;max-height:430px;min-height:160px}
+.dna-video canvas{position:absolute;inset:0;width:100%;height:100%;object-fit:contain;pointer-events:none}
+.dna-video canvas[hidden]{display:none}
+.dna-marks{border:1px solid var(--line);border-radius:9px;padding:.7rem;margin:1rem 0}
+.dna-marks p{color:var(--muted);font-size:.85rem;margin:.5rem 0}
+.button input[type=file]{display:block;max-width:230px;margin-top:.4rem}
+#people button[aria-pressed=true]{border-color:var(--green);color:var(--green)}
+.dna-table{overflow:auto;margin-top:1rem}table{border-collapse:collapse;width:100%;font-size:.86rem}td,th{padding:.65rem;text-align:left;border-bottom:1px solid var(--line);white-space:nowrap}
+caption{text-align:left;color:var(--muted);margin-bottom:.5rem}
+#metrics strong{font-size:1.8rem;color:#a6e4de;display:block}
+#shot-chart{width:100%;max-height:220px;margin:1rem 0;background:#12191e;border-radius:10px}
+#sessions{padding-left:1.2rem}#sessions li{margin:.6rem 0;overflow-wrap:anywhere}
+#journal .pair{margin:1rem 0}
+summary{font-weight:750;cursor:pointer}
+details p{margin-top:.8rem!important}
+#comparison,#pose-feedback,#shot-feedback,#journal-status{margin:.8rem 0;overflow-wrap:anywhere}
+@media(max-width:700px){.dna-hero,.dna-layout{grid-template-columns:1fr}.dna-hero img{aspect-ratio:2;max-height:190px}}
