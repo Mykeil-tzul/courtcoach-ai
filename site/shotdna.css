@@ -23,3 +23,11 @@ summary{font-weight:750;cursor:pointer}
 details p{margin-top:.8rem!important}
 #comparison,#pose-feedback,#shot-feedback,#journal-status{margin:.8rem 0;overflow-wrap:anywhere}
 @media(max-width:700px){.dna-hero,.dna-layout{grid-template-columns:1fr}.dna-hero img{aspect-ratio:2;max-height:190px}}
+
+.practice-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:1rem;margin:1rem 0}
+.practice-card{padding:.8rem;border:1px solid var(--line);border-radius:12px;background:var(--input);min-width:0}
+.practice-card video{display:block;width:100%;aspect-ratio:9/14;max-height:440px;object-fit:contain;background:#090c10;border-radius:8px}
+.practice-card h3{margin-top:.8rem}
+.practice-card p{color:var(--muted);margin:.3rem 0 .8rem;font-size:.85rem}
+#practice-library,#shooting-lab{scroll-margin-top:1rem}
+@media(max-width:700px){.practice-grid{grid-template-columns:1fr}.practice-card video{max-height:420px}}

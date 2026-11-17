@@ -12,16 +12,21 @@
 <main>
 <section class="dna-hero">
 <div><p class="eyebrow">SHOTDNA · YOUR SHOOTING BASELINE</p><h1>Get to know<br>your shot.</h1><p>Mark the gather and release. Measure the visible movement. Compare your next session with your own baseline.</p><div class="actions"><a class="primary button" href="#shooting-lab">Analyze my shot</a><button class="secondary" id="example" type="button">See an example report</button></div></div>
-<img src="assets/court-film.jpg" alt="Basketball game film from Myke Tzul’s playing days" width="640" height="360">
+<img src="assets/shotdna/purple-tee.jpg" alt="Myke shooting in a purple tee during an indoor practice session" width="640" height="360">
 </section>
 <div class="workflow"><span><b>01</b> Choose a clear clip</span><span><b>02</b> Confirm two poses</span><span><b>03</b> Compare your reps</span></div>
+<section class="panel" id="practice-library" aria-labelledby="practice-title">
+<div class="heading"><div><p class="eyebrow">MYKE’S PRACTICE FILM</p><h2 id="practice-title">Pick a session. Study the shot.</h2><p>Watch the full recordings, then open a clip in the motion lab to mark your gather and release.</p></div></div>
+<div id="practice-clips" class="practice-grid"></div>
+<p class="hint">These recordings include rear and three-quarter views. Visibility and camera angle affect the measurements. Inspect the selected pose before saving an attempt.</p>
+</section>
 <section class="panel" id="shooting-lab" aria-labelledby="lab-title">
 <div class="heading"><div><p class="eyebrow">MOTION LAB</p><h2 id="lab-title">Two moments tell a story.</h2><p>Use a side-on clip with one shooter and their full body in view. Keep the phone steady and use the same camera angle when you retest.</p></div></div>
 <div class="dna-layout">
 <div>
 <div class="dna-video"><video id="shot-video" controls muted playsinline preload="none"></video><canvas id="shot-canvas" aria-label="Selected pose landmarks" hidden></canvas></div>
-<div class="actions"><label class="button secondary">Choose video<input id="shot-file" type="file" accept="video/*,.mp4,.mov,.webm"></label><button type="button" class="secondary" id="sample-film">Try Myke’s game clip</button></div>
-<p class="hint">Local video stays on your device. Use a 1–60 second clip, up to 120 MB. The game clip shows why crowded footage can be harder to measure.</p>
+<div class="actions"><label class="button secondary">Choose video<input id="shot-file" type="file" accept="video/*,.mp4,.mov,.webm"></label><a class="button secondary" href="#practice-library">Choose Myke’s practice film ↑</a></div>
+<p class="hint">Local video stays on your device. Use a 1–120 second clip, up to 120 MB. You can also analyze one of the three practice recordings above.</p>
 <div class="actions"><button type="button" class="secondary" id="frame-back" disabled>−0.05s</button><button type="button" class="secondary" id="frame-forward" disabled>+0.05s</button><button type="button" class="primary" id="detect" disabled>Analyze paused frame</button></div>
 <p id="pose-feedback" role="status">Choose a clip and pause at the lowest point of your shooting gather.</p>
 <div id="people" class="actions"></div>

@@ -21,6 +21,11 @@ test("hidden, cropped or missing joints cannot produce confident measurements",(
 test("session validation excludes reversed, unavailable and nonfinite measurements",()=>{
   assert.ok(validSession(exampleSession));
   assert.equal(validSession({...exampleSession,date:"2026-02-30"}),false);
+  const longer=structuredClone(exampleSession);
+  longer.shots[0].gather.time=61; longer.shots[0].release.time=61.5;
+  assert.ok(validSession(longer));
+  longer.shots[0].release.time=121;
+  assert.equal(validSession(longer),false);
   const bad=structuredClone(exampleSession); bad.shots[0].release.time=0;
   assert.equal(validSession(bad),false);
   bad.shots[0].release.time=1; bad.shots[0].gather.knee=null;

@@ -8,7 +8,7 @@ CourtCoach AI turns three short basketball clips into a seven-day practice plan.
 
 [Open ShotDNA](https://mykeil-tzul.github.io/courtcoach-ai/shotdna.html), also linked in the app’s navigation and hero. Use a side-on, steady-phone clip with one shooter fully visible.
 
-1. Choose a local video or try Myke’s crowded game excerpt.
+1. Choose a local video or select **Analyze this clip** under one of Myke’s three practice recordings.
 2. Pause at the gather, analyze the frame, choose the correct pose, and mark the gather.
 3. Pause at the release, analyze it again, choose the same shooter, and mark the release.
 4. Enter the observed make or miss if known, then add the attempt. Repeat to build a session.
@@ -21,6 +21,14 @@ The chart and journal show averages and spread. The app makes no claim that a ti
 **See an example report** uses six clearly labeled synthetic attempts to demonstrate the interface. Synthetic attempts cannot be saved as measured sessions. Actual measurements and a manually recorded outcome can be saved locally, exported, imported, compared, or deleted. Local video is held in memory and never included in the journal export. The optional model and runtime download from Google and jsDelivr. The journal holds up to 100 sessions with up to 100 shots each.
 
 The numerical tests cover known geometric angles, aspect ratio, occlusion rejection, reversed timestamps, invalid imports, session statistics, and incompatible setups. A Chrome browser smoke test loaded the actual pose model on the game excerpt, marked two usable frames, saved a session, restored it after reload, imported a follow-up, compared the sessions, and rejected an invalid backup without replacing the journal. These checks verify the workflow. Real shooting accuracy or biomechanics validation has not been measured.
+
+## My practice videos in ShotDNA
+
+The shooting lab includes three full practice recordings selected from my Photos library, with playable previews and an **Analyze this clip** button. The purple-tee shooting session is about 18 seconds, the gym workout is about 62 seconds, and the shooting-machine clip is about nine seconds. Choosing a different clip starts a fresh measurement session and asks before discarding unsaved attempts.
+
+The browser copies use H.264 MP4 video and stereo AAC audio with fast-start playback. HDR footage was tone-mapped for standard screens, the original orientation was preserved, and source metadata was removed. They retain the full recording length. Originals remain outside the public repository.
+
+These are rear and three-quarter practice views. They are useful for inspecting what the model sees, but a consistent side-on recording remains a better setup for comparing image-plane arm and leg angles.
 
 ## Try it
 
@@ -52,7 +60,7 @@ python3 -m http.server 8000 --directory site
 node --test tests/*.test.mjs
 ```
 
-Open `http://localhost:8000`. Try a short H.264 MP4 in a current Chrome or Edge browser. Clips are limited to 1–60 seconds and 120 MB each. GitHub Actions checks the coaching logic and deploys the static app to Pages. I chose client-side processing so the first version can show the film workflow without sending anyone’s videos to a server.
+Open `http://localhost:8000`. Try a short H.264 MP4 in a current Chrome or Edge browser. The original three-clip coaching review accepts clips of 1–60 seconds and 120 MB each. ShotDNA accepts clips of 1–120 seconds and 120 MB each. GitHub Actions checks the coaching logic and deploys the static app to Pages. I chose client-side processing so the first version can show the film workflow without sending anyone’s videos to a server.
 
 The header still is from Myke Tzul’s [GameLens](https://github.com/Mykeil-tzul/gamelens) project.
 

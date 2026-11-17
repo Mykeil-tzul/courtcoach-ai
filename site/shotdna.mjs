@@ -1,4 +1,5 @@
-import {measurePose, summary, validSession, compareSessions, exampleSession, metricNames} from "./shotdna-core.mjs";
+import {measurePose, summary, validSession, compareSessions, exampleSession, metricNames, maxClipSeconds} from "./shotdna-core.mjs";
+import {practiceClips} from "./shotdna-clips.mjs";
 const $ = selector => document.querySelector(selector);
 const video = $("#shot-video");
 const canvas = $("#shot-canvas");
@@ -74,13 +75,20 @@ function drawPose() {
 function setBusy(value) {
   busy=value;
   $("#detect").disabled=value || video.readyState<2;
-  $("#shot-file").disabled=value; $("#sample-film").disabled=value;
+  $("#shot-file").disabled=value;
+  document.querySelectorAll("[data-practice-clip]").forEach(button=>button.disabled=value);
   $("#frame-back").disabled=value || video.readyState<2;
   $("#frame-forward").disabled=value || video.readyState<2;
   $("#hand").disabled=value || shots.length>0;
   updateMarkButtons();
 }
-function loadClip(source) {
+function loadClip(source,setupName="") {
+  if (shots.length && !example && !sessionSaved && !confirm("Open a different video and discard the unsaved attempts? Save the session first if you want to keep them.")) return false;
+  document.querySelectorAll("#practice-clips video").forEach(clip=>clip.pause());
+  shots=[]; example=false; sessionSaved=false;
+  $("#setup").readOnly=false;
+  if(setupName) $("#setup").value=setupName;
+  renderReport();
   generation++;
   video.pause();
   clearFrame(); resetMarks();
@@ -88,19 +96,46 @@ function loadClip(source) {
   video.src=source; video.load();
   $("#pose-feedback").textContent="Loading clip…";
   setBusy(false);
+  return true;
 }
 $("#shot-file").addEventListener("change", event => {
   const file=event.target.files[0]; event.target.value="";
   if (!file) return;
   if (file.size>120*1024*1024) { $("#pose-feedback").textContent="Choose a clip smaller than 120 MB."; return; }
-  loadClip(URL.createObjectURL(file));
-  objectUrl=video.src;
+  const url=URL.createObjectURL(file);
+  if(loadClip(url)) objectUrl=url;
+  else URL.revokeObjectURL(url);
 });
-$("#sample-film").addEventListener("click", () => loadClip("assets/case/highlight-reel.mp4"));
+for (const clip of practiceClips) {
+  const card=document.createElement("article");
+  card.className="practice-card";
+  const preview=document.createElement("video");
+  preview.controls=true; preview.muted=true; preview.playsInline=true; preview.preload="none";
+  preview.src=clip.src; preview.poster=clip.poster;
+  preview.setAttribute("aria-label",clip.title+" full practice recording");
+  const title=document.createElement("h3"); title.textContent=clip.title;
+  const detail=document.createElement("p"); detail.textContent=clip.detail;
+  const button=document.createElement("button");
+  button.type="button"; button.className="primary"; button.dataset.practiceClip=clip.id;
+  button.textContent="Analyze this clip";
+  button.setAttribute("aria-label","Analyze "+clip.title);
+  button.addEventListener("click",()=>{
+    if(loadClip(clip.src,clip.setup)) {
+      video.poster=clip.poster;
+      $("#shooting-lab").scrollIntoView({behavior:"smooth",block:"start"});
+    }
+  });
+  preview.addEventListener("play",()=>{
+    document.querySelectorAll("#practice-clips video").forEach(other=>{if(other!==preview) other.pause()});
+    video.pause();
+  });
+  card.append(preview,title,detail,button);
+  $("#practice-clips").append(card);
+}
 video.addEventListener("loadedmetadata", () => {
-  if (!Number.isFinite(video.duration) || video.duration<1 || video.duration>60) {
+  if (!Number.isFinite(video.duration) || video.duration<1 || video.duration>maxClipSeconds) {
     video.removeAttribute("src"); video.load(); setBusy(false);
-    $("#pose-feedback").textContent="Trim your clip to between 1 and 60 seconds, then choose it again."; return;
+    $("#pose-feedback").textContent="Trim your clip to between 1 and 120 seconds, then choose it again."; return;
   }
   $("#pose-feedback").textContent="Pause at the gather, analyze the frame, then choose your player.";
 });

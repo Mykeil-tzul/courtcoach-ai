@@ -1,3 +1,4 @@
+export const maxClipSeconds = 120;
 export const metricNames = {
   elbow:"Elbow angle at release", knee:"Knee angle at gather", lift:"Gather to release"
 };
@@ -30,7 +31,7 @@ export function summary(shots) {
   }));
 }
 function validMark(mark) {
-  return mark && Number.isFinite(mark.time) && mark.time >= 0 && mark.time <= 60 &&
+  return mark && Number.isFinite(mark.time) && mark.time >= 0 && mark.time <= maxClipSeconds &&
     ["elbow","knee"].every(key => mark[key] === null || Number.isFinite(mark[key]) && mark[key] >= 0 && mark[key] <= 180);
 }
 function validDate(value) {
