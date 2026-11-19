@@ -110,7 +110,7 @@ for (const clip of practiceClips) {
   const card=document.createElement("article");
   card.className="practice-card";
   const preview=document.createElement("video");
-  preview.controls=true; preview.muted=true; preview.playsInline=true; preview.preload="none";
+  preview.controls=true; preview.muted=true; preview.playsInline=true; preview.preload="metadata";
   preview.src=clip.src; preview.poster=clip.poster;
   preview.setAttribute("aria-label",clip.title+" full practice recording");
   const title=document.createElement("h3"); title.textContent=clip.title;
@@ -125,11 +125,46 @@ for (const clip of practiceClips) {
       $("#shooting-lab").scrollIntoView({behavior:"smooth",block:"start"});
     }
   });
+  const play=document.createElement("button");
+  play.type="button"; play.className="secondary"; play.textContent="▶ Play video";
+  play.setAttribute("aria-label","Play "+clip.title);
+  const playbackStatus=document.createElement("p");
+  playbackStatus.className="hint"; playbackStatus.setAttribute("role","status");
+  const open=document.createElement("a");
+  open.href=clip.src; open.target="_blank"; open.rel="noopener";
+  open.textContent="Open video full screen ↗";
+  open.className="practice-open";
+  play.addEventListener("click",async()=>{
+    if (!preview.paused) { preview.pause(); return; }
+    playbackStatus.textContent="Loading video…";
+    try {
+      await preview.play();
+      playbackStatus.textContent="";
+    } catch {
+      playbackStatus.textContent="Tap the video’s play control, or use Open video full screen.";
+    }
+  });
+  preview.addEventListener("playing",()=>{
+    play.textContent="Ⅱ Pause video";
+    play.setAttribute("aria-label","Pause "+clip.title);
+    playbackStatus.textContent="";
+  });
+  preview.addEventListener("pause",()=>{
+    play.textContent="▶ Play video"; play.setAttribute("aria-label","Play "+clip.title);
+  });
+  preview.addEventListener("ended",()=>{
+    play.textContent="↻ Replay video"; play.setAttribute("aria-label","Replay "+clip.title);
+  });
+  preview.addEventListener("error",()=>{
+    playbackStatus.textContent="This preview could not load. Try Open video full screen.";
+  });
   preview.addEventListener("play",()=>{
     document.querySelectorAll("#practice-clips video").forEach(other=>{if(other!==preview) other.pause()});
     video.pause();
   });
-  card.append(preview,title,detail,button);
+  const actions=document.createElement("div");
+  actions.className="actions"; actions.append(play,button);
+  card.append(preview,title,detail,actions,playbackStatus,open);
   $("#practice-clips").append(card);
 }
 video.addEventListener("loadedmetadata", () => {

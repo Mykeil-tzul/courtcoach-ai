@@ -31,3 +31,4 @@ details p{margin-top:.8rem!important}
 .practice-card p{color:var(--muted);margin:.3rem 0 .8rem;font-size:.85rem}
 #practice-library,#shooting-lab{scroll-margin-top:1rem}
 @media(max-width:700px){.practice-grid{grid-template-columns:1fr}.practice-card video{max-height:420px}}
+.practice-open{display:inline-block;font-size:.85rem;margin-top:.5rem}

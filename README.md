@@ -24,7 +24,7 @@ The numerical tests cover known geometric angles, aspect ratio, occlusion reject
 
 ## My practice videos in ShotDNA
 
-The shooting lab includes three full practice recordings selected from my Photos library, with playable previews and an **Analyze this clip** button. The purple-tee shooting session is about 18 seconds, the gym workout is about 62 seconds, and the shooting-machine clip is about nine seconds. Choosing a different clip starts a fresh measurement session and asks before discarding unsaved attempts.
+The shooting lab includes three full practice recordings selected from my Photos library, with a **Play video** button, native video controls, a full-screen video link, and an **Analyze this clip** button. The purple-tee shooting session is about 18 seconds, the gym workout is about 62 seconds, and the shooting-machine clip is about nine seconds. Choosing a different clip starts a fresh measurement session and asks before discarding unsaved attempts.
 
 The browser copies use H.264 MP4 video and stereo AAC audio with fast-start playback. HDR footage was tone-mapped for standard screens, the original orientation was preserved, and source metadata was removed. They retain the full recording length. Originals remain outside the public repository.
 
